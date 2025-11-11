@@ -1,27 +1,128 @@
-# OpenaiChat
+# OpenAI Chat
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+An Angular-based web application for interacting with OpenAI's chat API.
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Node.js** (version 18 or higher)
+- **npm** (comes with Node.js)
+- **Podman** (for container builds)
 
-## Code scaffolding
+## Running Locally
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 1. Install Dependencies
 
-## Build
+```bash
+npm install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 2. Start Development Server
 
-## Running unit tests
+```bash
+npm start
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The application will be available at `http://localhost:4200/`. The development server will automatically reload when you make changes to the source files.
 
-## Running end-to-end tests
+### 3. Build for Production
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To create a production build:
 
-## Further help
+```bash
+npm run build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The build artifacts will be stored in the `dist/openai-chat/` directory.
+
+## Building the Container Image
+
+This project uses a multi-stage Podman build that:
+- Builds the Angular application using UBI-9 Node.js image
+- Serves the application using UBI-9 httpd (Apache) on port 8080
+- Runs as a non-privileged user for security
+
+### Build Image
+
+```bash
+podman build -t openai-chat-ng:latest .
+```
+
+### Build with Custom Tag
+
+```bash
+podman build -t openai-chat-ng:v1.0.0 .
+```
+
+## Running the Container Image
+
+### Basic Run
+
+```bash
+podman run -p 8080:8080 openai-chat-ng:latest
+```
+
+The application will be available at `http://localhost:8080/`.
+
+### Run in Detached Mode
+
+```bash
+podman run -d -p 8080:8080 --name openai-chat openai-chat-ng:latest
+```
+
+### Run with Custom Port Mapping
+
+```bash
+podman run -p 3000:8080 openai-chat-ng:latest
+```
+
+This maps the container's port 8080 to your host's port 3000. Access the application at `http://localhost:3000/`.
+
+### View Container Logs
+
+```bash
+podman logs openai-chat
+```
+
+### Stop the Container
+
+```bash
+podman stop openai-chat
+```
+
+## Container Details
+
+- **Base Image**: Red Hat UBI-9 (Universal Base Image 9)
+- **Web Server**: Apache httpd 24
+- **Port**: 8080
+- **User**: Non-privileged user (appuser, UID 1001 or 1000)
+- **Security**: Runs as non-root user, SSL disabled (intended for reverse proxy termination)
+
+## CI/CD
+
+This project includes a GitHub Actions workflow that automatically builds and pushes container images to Quay.io when changes are pushed to the `main` branch.
+
+The image is available at: `quay.io/mklaasse/openai-chat-ng:latest`
+
+## Development
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Code Scaffolding
+
+Generate new components, services, and other Angular artifacts:
+
+```bash
+ng generate component component-name
+ng generate service service-name
+ng generate directive directive-name
+```
+
+For more information, see the [Angular CLI documentation](https://angular.io/cli).
+
+## License
+
+[Add your license information here]
