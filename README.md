@@ -99,9 +99,15 @@ podman stop openai-chat
 
 ## CI/CD
 
-This project includes a GitHub Actions workflow that automatically builds and pushes container images to Quay.io when changes are pushed to the `main` branch.
+This project includes a GitHub Actions workflow that automatically builds and pushes multi-architecture container images to Quay.io when changes are pushed to the `main` branch.
 
-The image is available at: `quay.io/mklaasse/openai-chat-ng:latest`
+The workflow builds images for both:
+- **linux/amd64** (x86_64) - for Intel/AMD processors
+- **linux/arm64** (ARM64) - for Apple Silicon (M1/M2/M3) and ARM-based servers
+
+The multi-arch image is available at: `quay.io/mklaasse/openai-chat-ng:latest`
+
+When you pull the image, it will automatically use the correct architecture for your system.
 
 ## Development
 
@@ -122,7 +128,3 @@ ng generate directive directive-name
 ```
 
 For more information, see the [Angular CLI documentation](https://angular.io/cli).
-
-## License
-
-[Add your license information here]
