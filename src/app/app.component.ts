@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from './api.service';
+import { FooterComponent } from './footer/footer.component';
 
 interface Model {
   id: string;
@@ -11,7 +12,7 @@ interface Model {
 @Component({
   selector: 'app-root',
   standalone: true, 
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule, FooterComponent], 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
