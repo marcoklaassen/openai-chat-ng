@@ -24,7 +24,7 @@ export class ApiService {
 
   // Updated sendMessage method: takes selectedModel
   sendMessage(message: string, apiKey: string, apiUrl: string, selectedModel: string): Observable<any> {
-    const completionsUrl = `${apiUrl}/v1/chat/completions`
+    const completionsUrl = `${apiUrl}/chat/completions`
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${apiKey}`, 
